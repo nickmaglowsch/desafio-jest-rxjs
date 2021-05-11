@@ -1,17 +1,18 @@
-import { add, mul } from "../src/calc";
+import { delay, retry } from "rxjs/operators";
+import { example } from "../src/desafio";
 
-describe("test add function", () => {
-  it("should return 15 for add(10,5)", () => {
-    expect(add(10, 5)).toBe(15);
-  });
-
-  it("should return 5 for add(2,3)", () => {
-    expect(add(2, 3)).toBe(5);
-  });
+jest.mock("rxjs/operators", () => {
+  const operators = jest.requireActual("rxjs/operators");
+  operators.delay = jest.fn(() => (s) => s); // <= mock delay
+  operators.retry = jest.fn(() => (s) => s); // <= mock trye
+  return operators;
 });
 
-describe("test mul function", () => {
-  it("should return 15 for mul(3,5)", () => {
-    expect(mul(3, 5)).toBe(15);
+describe("delay", () => {
+  it("should delay one second", () => {
+    const spy = jest.fn();
+    example.subscribe(spy);
+
+    expect(delay).toHaveBeenCalledWith;
   });
 });
